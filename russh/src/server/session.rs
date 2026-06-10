@@ -581,7 +581,7 @@ impl Session {
                             println!("channel {id}: queue size before flush: {}", 
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
-                            self.flush()?;
+                            self.flush_pending(id)?;
                             println!("channel {id}: queue size after flush: {}", 
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
@@ -591,7 +591,7 @@ impl Session {
                             println!("channel {id}: queue size before flush: {}", 
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
-                            self.flush()?;
+                            self.flush_pending(id)?;
                             println!("channel {id}: queue size after flush: {}", 
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
