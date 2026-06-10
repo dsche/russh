@@ -578,9 +578,11 @@ impl Session {
                     match msg {
                         Some(Msg::Channel(id, ChannelMsg::Data { data })) => {
                             self.data(id, data)?;
+                            self.flush()?;
                         }
                         Some(Msg::Channel(id, ChannelMsg::ExtendedData { ext, data })) => {
                             self.extended_data(id, ext, data)?;
+                            self.flush()?;
                         }
                         Some(Msg::Channel(id, ChannelMsg::Eof)) => {
                             self.eof(id)?;
