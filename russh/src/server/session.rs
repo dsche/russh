@@ -582,6 +582,9 @@ impl Session {
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
                             self.flush()?;
+                            println!("channel {id}: queue size after flush: {}", 
+                                self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
+                            );
                         }
                         Some(Msg::Channel(id, ChannelMsg::ExtendedData { ext, data })) => {
                             self.extended_data(id, ext, data)?;
@@ -589,6 +592,9 @@ impl Session {
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
                             self.flush()?;
+                            println!("channel {id}: queue size after flush: {}", 
+                                self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
+                            );
                         }
                         Some(Msg::Channel(id, ChannelMsg::Eof)) => {
                             self.eof(id)?;
