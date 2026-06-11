@@ -574,7 +574,7 @@ impl Session {
                     debug!("timeout");
                     return Err(crate::Error::InactivityTimeout.into());
                 }
-                msg = self.receiver.recv(), if self.can_send() => {
+                msg = self.receiver.recv(), if !self.kex.active() => {
                     match msg {
                         Some(Msg::Channel(id, ChannelMsg::Data { data })) => {
                             self.data(id, data)?;
@@ -726,11 +726,6 @@ impl Session {
         }
 
         Ok(())
-    }
-
-    pub fn can_send(&self) -> bool {
-        self.common.encrypted.as_ref().map(|enc| enc.channels.iter().map(|c| c.1.recipient_window_size).min()).flatten().unwrap_or(0) > 0
-        && !self.kex.active()
     }
 
     /// Get a handle to this session.
