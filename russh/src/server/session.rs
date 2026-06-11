@@ -578,8 +578,9 @@ impl Session {
                     match msg {
                         Some(Msg::Channel(id, ChannelMsg::Data { data })) => {
                             self.data(id, data)?;
-                            println!("channel {id}: queue size before flush: {}", 
-                                self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
+                            println!("channel {id}: queue size before flush: {}, encrypted present: {}", 
+                                self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len(),
+                                self.common.encrypted.is_some(),
                             );
                             let flushed = self.flush_pending(id)?;
                             println!("channel {id}: queue size after flush: {}, flushed: {flushed}", 
@@ -588,8 +589,9 @@ impl Session {
                         }
                         Some(Msg::Channel(id, ChannelMsg::ExtendedData { ext, data })) => {
                             self.extended_data(id, ext, data)?;
-                            println!("channel {id}: queue size before flush: {}", 
-                                self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
+                            println!("channel {id}: queue size before flush: {}, encrypted present: {}", 
+                                self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len(),
+                                self.common.encrypted.is_some(),
                             );
                             let flushed = self.flush_pending(id)?;
                             println!("channel {id}: queue size after flush: {}, flushed: {flushed}", 
