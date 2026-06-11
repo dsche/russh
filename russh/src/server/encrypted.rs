@@ -64,6 +64,7 @@ impl Session {
         let Some(enc) = self.common.encrypted.as_mut() else {
             return Err(Error::Inconsistent.into());
         };
+        println!("server_read_encrypted: state = {:?}, buf = {:02x?}", enc.state, buf);
 
         // If we've successfully read a packet.
         match (&mut enc.state, buf.split_first()) {
