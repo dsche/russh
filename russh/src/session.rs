@@ -319,17 +319,21 @@ impl Encrypted {
         write: &mut Vec<u8>,
         channel: &mut ChannelParams,
     ) -> Result<ChannelFlushResult, crate::Error> {
+        println!("flush_channel: pending_data.len() = {}", channel.pending_data.len());
         let mut pending_size = 0;
         while let Some((buf, a, from)) = channel.pending_data.pop_front() {
+            println!("flush_channel: flushing data, size = {}, from = {}", buf.len(), from);
             let size = Self::data_noqueue(write, channel, &buf, a, from)?;
             pending_size += size;
             if from + size < buf.len() {
+                println!("flush_channel: partial flush, wrote {}, remaining = {}, re-queueing", size, buf.len() - (from + size));
                 channel.pending_data.push_front((buf, a, from + size));
                 return Ok(ChannelFlushResult::Incomplete {
                     wrote: pending_size,
                 });
             }
         }
+        println!("flush_channel: complete flush, wrote {}, no remaining data", pending_size);
         Ok(ChannelFlushResult::complete(pending_size, channel))
     }
 
@@ -495,6 +499,7 @@ impl Encrypted {
                 buf = &buf[off..]
             }
         }
+        println!("data_noqueue: wrote {}, remaining = {}, end = {}, recipient_window_size = {}", buf_len, buf0.len() - (from + buf_len), window_end, channel.recipient_window_size);
         trace!("buf.len() = {:?}, buf_len = {:?}", buf.len(), buf_len);
         Ok(buf_len)
     }

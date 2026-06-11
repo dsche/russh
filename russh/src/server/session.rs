@@ -582,7 +582,7 @@ impl Session {
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len(),
                                 self.common.encrypted.is_some(),
                             );
-                            let flushed = self.flush_pending(id)?;
+                            let flushed = self.common.encrypted.as_mut().unwrap().flush_pending(id)?;
                             println!("channel {id}: queue size after flush: {}, flushed: {flushed}", 
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
@@ -593,7 +593,7 @@ impl Session {
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len(),
                                 self.common.encrypted.is_some(),
                             );
-                            let flushed = self.flush_pending(id)?;
+                            let flushed = self.common.encrypted.as_mut().unwrap().flush_pending(id)?;
                             println!("channel {id}: queue size after flush: {}, flushed: {flushed}", 
                                 self.common.encrypted.as_ref().unwrap().channels.get(&id).unwrap().pending_data.len()
                             );
